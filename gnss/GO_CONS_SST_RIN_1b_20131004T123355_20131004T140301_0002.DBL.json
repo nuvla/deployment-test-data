@@ -1,0 +1,47 @@
+{
+    "infrastructure-service": {
+        "href": "CHANGE_ME"
+    },
+    
+    "name": "goce 2018-10-04T12:33:55Z dbl",
+    "description": "goce 2018-10-04T12:33:55Z dbl",
+
+    "resource:type": "DATA",
+    "resource:protocol": "NFS",
+    
+    "data:bucket": "goce-2013-10-0",
+    "data:object": "GO_CONS_SST_RIN_1b_20131004T123355_20131004T140301_0002.DBL",
+    "data:contentType": "application/x-dbl",
+    "data:timestamp": "2018-10-04T12:33:55Z",
+
+    "data:bytes":  10037115,
+    
+    "data:nfsDevice": "/gnss_dmz_nas/minio/goce-2013-10-0",
+    "data:nfsIP": "dmz7-int.dmz-citi-fs.esoc.esa.int",
+    
+    "data:protocols": [
+        "tcp+nfs"
+    ],
+
+    "gnss:mission": "goce",
+    
+    "acl": {
+        "owner": {
+            "type": "ROLE",
+            "principal": "ADMIN"
+        },
+        "rules": [
+            {
+                "right": "VIEW",
+                "type": "ROLE",
+                "principal": "USER"
+            },
+            {
+                "type": "ROLE",
+                "principal": "ADMIN",
+                "right": "ALL"
+            }
+        ]
+    }    
+}
+

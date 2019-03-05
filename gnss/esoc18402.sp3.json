@@ -1,0 +1,47 @@
+{
+    "infrastructure-service": {
+        "href": "CHANGE_ME"
+    },
+    
+    "name": "great 2018-11-01T23:46:57Z sp3",
+    "description": "great 2018-11-01T23:46:57Z sp3",
+
+    "resource:type": "DATA",
+    "resource:protocol": "NFS",
+    
+    "data:bucket": "great",
+    "data:object": "esoc18402.sp3",
+    "data:contentType": "application/x-sp3",
+    "data:timestamp": "2018-11-01T23:46:57Z",
+
+    "data:bytes":  1710720,
+    
+    "data:nfsDevice": "/gnss_dmz_nas/minio/great",
+    "data:nfsIP": "dmz7-int.dmz-citi-fs.esoc.esa.int",
+    
+    "data:protocols": [
+        "tcp+nfs"
+    ],
+
+    "gnss:mission": "great",
+    
+    "acl": {
+        "owner": {
+            "type": "ROLE",
+            "principal": "ADMIN"
+        },
+        "rules": [
+            {
+                "right": "VIEW",
+                "type": "ROLE",
+                "principal": "USER"
+            },
+            {
+                "type": "ROLE",
+                "principal": "ADMIN",
+                "right": "ALL"
+            }
+        ]
+    }    
+}
+

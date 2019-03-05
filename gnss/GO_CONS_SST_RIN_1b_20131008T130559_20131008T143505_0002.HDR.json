@@ -1,0 +1,47 @@
+{
+    "infrastructure-service": {
+        "href": "CHANGE_ME"
+    },
+    
+    "name": "goce 2018-10-08T13:05:59Z hdr",
+    "description": "goce 2018-10-08T13:05:59Z hdr",
+
+    "resource:type": "DATA",
+    "resource:protocol": "NFS",
+    
+    "data:bucket": "goce-2013-10-0",
+    "data:object": "GO_CONS_SST_RIN_1b_20131008T130559_20131008T143505_0002.HDR",
+    "data:contentType": "application/x-hdr",
+    "data:timestamp": "2018-10-08T13:05:59Z",
+
+    "data:bytes":     5551,
+    
+    "data:nfsDevice": "/gnss_dmz_nas/minio/goce-2013-10-0",
+    "data:nfsIP": "dmz7-int.dmz-citi-fs.esoc.esa.int",
+    
+    "data:protocols": [
+        "tcp+nfs"
+    ],
+
+    "gnss:mission": "goce",
+    
+    "acl": {
+        "owner": {
+            "type": "ROLE",
+            "principal": "ADMIN"
+        },
+        "rules": [
+            {
+                "right": "VIEW",
+                "type": "ROLE",
+                "principal": "USER"
+            },
+            {
+                "type": "ROLE",
+                "principal": "ADMIN",
+                "right": "ALL"
+            }
+        ]
+    }    
+}
+
