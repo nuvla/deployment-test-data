@@ -157,6 +157,7 @@ gnss_module = {"name": "GNSS Jupyter Notebook",
                "type": "COMPONENT",
                "path": "gnss-jupyter",
                "parent-path": "",
+               "data-accept-content-types": ["application/x-hdr", "application/x-clk"],
                "content": gnss_comp}
 
 gnss_module_response = nuvla_api.add('module', gnss_module)
