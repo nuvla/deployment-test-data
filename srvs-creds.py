@@ -83,7 +83,7 @@ print("Swarm credential id: %s\n" % minio_id)
 data_set = {"name" : "GREAT (CLK)",
             "description" : "GREAT (CLK) data at ESA",
             "module-filter" : "data-accept-content-types='application/x-clk'",
-            "data-object-filter" : "resource:type='DATA' and gnss:mission='great' and data:contentType='application/x-clk'"}
+            "data-record-filter" : "resource:type='DATA' and gnss:mission='great' and data:contentType='application/x-clk'"}
 
 data_set_response = nuvla_api.add('data-set', data_set)
 data_set_id = data_set_response.data['resource-id']
@@ -150,12 +150,12 @@ print("prefix resource id: %s\n" % prefix_resource_id)
 gnss_comp = {"author": "esa",
              "commit": "initial commit",
              "architecture": "x86",
-             "image": "sixsq/gnss-jupyter:latest"}
+             "image": "sixsq/gssc-jupyter:latest"}
 
 gnss_module = {"name": "GNSS Jupyter Notebook",
                "description": "Jupyter notebook application integrated with Nuvla data management",
                "type": "COMPONENT",
-               "path": "gnss-jupyter",
+               "path": "gssc-jupyter",
                "parent-path": "",
                "data-accept-content-types": ["application/x-hdr", "application/x-clk"],
                "content": gnss_comp}
