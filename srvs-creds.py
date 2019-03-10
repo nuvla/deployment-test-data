@@ -63,7 +63,7 @@ print("Minio service id: %s\n" % minio_id)
 swarm_cred_tpl = {"name": "GNSS Swarm Credential",
                   "description": "Certificate, Key, and CA for GNSS Swarm",
                   "template": {"href": "credential-template/infrastructure-service-swarm",
-                               "services": [swarm_id],
+                               "infrastructure-services": [swarm_id],
                                "ca": "my-ca",
                                "cert": "my-cert",
                                "key": "my-key"}}

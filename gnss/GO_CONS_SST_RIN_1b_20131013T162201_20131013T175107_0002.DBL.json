@@ -1,7 +1,5 @@
 {
-    "infrastructure-service": {
-        "href": "CHANGE_ME"
-    },
+    "infrastructure-service": "CHANGE_ME",
     
     "name": "goce 2018-10-13T16:22:01Z dbl",
     "description": "goce 2018-10-13T16:22:01Z dbl",

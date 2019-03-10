@@ -38,7 +38,7 @@ for f in json_files:
         data = json.load(json_file)
 
         # update service reference
-        data['infrastructure-service']['href'] = swarm_id
+        data['infrastructure-service'] = swarm_id
 
         # store the data-record
         response = nuvla_api.add('data-record', data)
