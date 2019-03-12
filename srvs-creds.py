@@ -80,30 +80,30 @@ print("Swarm credential id: %s\n" % minio_id)
 # Add dataset definitions.
 #
 
-data_set = {"name" : "GREAT (CLK)",
-            "description" : "GREAT (CLK) data at ESA",
-            "module-filter" : "data-accept-content-types='application/x-clk'",
-            "data-record-filter" : "resource:type='DATA' and gnss:mission='great' and data:contentType='application/x-clk'"}
+data_set = {"name": "GREAT (CLK)",
+            "description": "GREAT (CLK) data at ESA",
+            "module-filter": "data-accept-content-types='application/x-clk'",
+            "data-record-filter": "resource:type='DATA' and gnss:mission='great' and data:contentType='application/x-clk'"}
 
 data_set_response = nuvla_api.add('data-set', data_set)
 data_set_id = data_set_response.data['resource-id']
 print("data-set id: %s\n" % data_set_id)
 
 
-data_set = {"name" : "GOCE (HDR)",
-            "description" : "GOCE (HDR) data at ESA",
-            "module-filter" : "data-accept-content-types='application/x-hdr'",
-            "data-record-filter" : "resource:type='DATA' and gnss:mission='goce' and data:contentType='application/x-hdr'"}
+data_set = {"name": "GOCE (HDR)",
+            "description": "GOCE (HDR) data at ESA",
+            "module-filter": "data-accept-content-types='application/x-hdr'",
+            "data-record-filter": "resource:type='DATA' and gnss:mission='goce' and data:contentType='application/x-hdr'"}
 
 data_set_response = nuvla_api.add('data-set', data_set)
 data_set_id = data_set_response.data['resource-id']
 print("data-set id: %s\n" % data_set_id)
 
 
-dataset = {"name" : "GOCE (DBL)",
-           "description" : "GOCE (DBL) data at ESA",
-           "module-filter" : "data-accept-content-types='application/x-dbl'",
-           "data-record-filter" : "resource:type='DATA' and gnss:mission='goce' and data:contentType='application/x-dbl'"}
+dataset = {"name": "GOCE (DBL)",
+           "description": "GOCE (DBL) data at ESA",
+           "module-filter": "data-accept-content-types='application/x-dbl'",
+           "data-record-filter": "resource:type='DATA' and gnss:mission='goce' and data:contentType='application/x-dbl'"}
 
 data_set_response = nuvla_api.add('data-set', data_set)
 data_set_id = data_set_response.data['resource-id']
@@ -113,30 +113,30 @@ print("data-set id: %s\n" % data_set_id)
 # setup prefixes for data-record resources
 #
 
-prefix_gnss = {"name" : "GNSS Key Prefix",
-               "description" : "key prefix for GNSS Big Data attributes",
-               "prefix" : "gnss",
-               "uri" : "https://gssc.esa.int/nuvla/prefix/gnss"}
+prefix_gnss = {"name": "GNSS Key Prefix",
+               "description": "key prefix for GNSS Big Data attributes",
+               "prefix": "gnss",
+               "uri": "https://gssc.esa.int/nuvla/prefix/gnss"}
 
 prefix_gnss_response = nuvla_api.add('data-record-key-prefix', prefix_gnss)
 prefix_gnss_id = prefix_gnss_response.data['resource-id']
 print("prefix gnss id: %s\n" % prefix_gnss_id)
 
 
-prefix_data = {"name" : "Data Key Prefix",
-               "description" : "key prefix for general data attributes",
-               "prefix" : "data",
-               "uri" : "https://gssc.esa.int/nuvla/prefix/data"}
+prefix_data = {"name": "Data Key Prefix",
+               "description": "key prefix for general data attributes",
+               "prefix": "data",
+               "uri": "https://gssc.esa.int/nuvla/prefix/data"}
 
 prefix_data_response = nuvla_api.add('data-record-key-prefix', prefix_data)
 prefix_data_id = prefix_data_response.data['resource-id']
 print("prefix data id: %s\n" % prefix_data_id)
 
 
-prefix_resource = {"name" : "Resource Key Prefix",
-                   "description" : "key prefix for general resource attributes",
-                   "prefix" : "resource",
-                   "uri" : "https://sixsq.com/nuvla/prefix/resource"}
+prefix_resource = {"name": "Resource Key Prefix",
+                   "description": "key prefix for general resource attributes",
+                   "prefix": "resource",
+                   "uri": "https://sixsq.com/nuvla/prefix/resource"}
 
 prefix_resource_response = nuvla_api.add('data-record-key-prefix', prefix_resource)
 prefix_resource_id = prefix_resource_response.data['resource-id']
@@ -150,14 +150,18 @@ print("prefix resource id: %s\n" % prefix_resource_id)
 gnss_comp = {"author": "esa",
              "commit": "initial commit",
              "architecture": "x86",
-             "image": "sixsq/gssc-jupyter:latest"}
+             "image": "sixsq/gssc-jupyter:latest",
+             "output-parameters": [{"name": "jupyter-token", "description": "jupyter authentication token"}],
+             "ports": ["tcp::8888"],
+             "urls": [["jupyter", "http://${hostname}:${tcp.8888}/?token=${jupyter-token}"]],
+             }
 
 gnss_module = {"name": "GNSS Jupyter Notebook",
                "description": "Jupyter notebook application integrated with Nuvla data management",
                "type": "COMPONENT",
                "path": "gssc-jupyter",
                "parent-path": "",
-               "data-accept-content-types": ["application/x-hdr", "application/x-clk"],
+               "data-accept-content-types": ["application/x-hdr", "application/x-clk", "application/x-dbl"],
                "content": gnss_comp}
 
 gnss_module_response = nuvla_api.add('module', gnss_module)
