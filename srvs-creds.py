@@ -1,4 +1,6 @@
 
+import os
+
 #
 # Creates the services and credenials needed for the ESA Swarm/Minio
 # infrastructure for GNSS.
@@ -6,7 +8,7 @@
 
 from nuvla.api import Api as nuvla_Api
 
-nuvla_api = nuvla_Api('https://localhost', insecure=True)
+nuvla_api = nuvla_Api(os.environ['NUVLA_ENDPOINT'], insecure=True)
 
 nuvla_api.login_internal('super', 'supeRsupeR')
 
@@ -33,7 +35,7 @@ swarm_tpl = {"template": { "href": "infrastructure-service-template/generic",
                            "name": "GNSS Swarm",
                            "description": "Docker Swarm cluster at ESA for GNSS",
                            "type": "swarm",
-                           "endpoint": "https://swarm-gnss.esa.int:2376",
+                           "endpoint": os.environ['SWARM_ENDPOINT'],
                            "state": "STARTED"}}
 
 swarm_srv_response = nuvla_api.add('infrastructure-service', swarm_tpl)
@@ -49,7 +51,7 @@ minio_tpl = {"template": { "href": "infrastructure-service-template/generic",
                            "name": "GNSS Minio (S3)",
                            "description": "Minio (S3) service at ESA for GNSS",
                            "type": "s3",
-                           "endpoint": "http://minio-gnss.esa.int:9000",
+                           "endpoint": os.environ['MINIO_ENDPOINT'],
                            "state": "STARTED"}}
 
 minio_srv_response = nuvla_api.add('infrastructure-service', minio_tpl)
@@ -65,16 +67,27 @@ swarm_cred_tpl = {"name": "GNSS Swarm Credential",
                   "template": {"href": "credential-template/infrastructure-service-swarm",
                                "infrastructure-services": [swarm_id],
                                "ca": "my-ca",
-                               "cert": "my-cert",
-                               "key": "my-key"}}
+                               "cert": os.environ['SWARM_CERT'],
+                               "key": os.environ['SWARM_KEY']}}
 
 swarm_cred_response = nuvla_api.add('credential', swarm_cred_tpl)
 swarm_cred_id = swarm_cred_response.data['resource-id']
-print("Swarm credential id: %s\n" % minio_id)
+print("Swarm credential id: %s\n" % swarm_cred_id)
 
 #
-# FIXME: Add credential for Minio (S3)
+# Credential for Minio (S3)
 #
+
+minio_cred_tpl = {"name": "Minio S3 Credential",
+                  "description": "Credentials for Minio S3",
+                  "template": {"href": "credential-template/infrastructure-service-minio",
+                               "infrastructure-services": [minio_id],
+                               "access-key": os.environ['MINIO_ACCESS_KEY'],
+                               "secret-key": os.environ['MINIO_SECRET_KEY']}}
+
+minio_cred_response = nuvla_api.add('credential', minio_cred_tpl)
+minio_cred_id = minio_cred_response.data['resource-id']
+print("Minio credential id: %s\n" % minio_cred_id)
 
 #
 # Add dataset definitions.
@@ -100,10 +113,10 @@ data_set_id = data_set_response.data['resource-id']
 print("data-set id: %s\n" % data_set_id)
 
 
-dataset = {"name": "GOCE (DBL)",
-           "description": "GOCE (DBL) data at ESA",
-           "module-filter": "data-accept-content-types='application/x-dbl'",
-           "data-record-filter": "resource:type='DATA' and gnss:mission='goce' and data:contentType='application/x-dbl'"}
+data_set = {"name": "Random (TXT)",
+            "description": "Random text data at ESA",
+            "module-filter": "data-accept-content-types='text/plain'",
+            "data-record-filter": "resource:type='DATA' and gnss:mission='random' and data:contentType='text/plain'"}
 
 data_set_response = nuvla_api.add('data-set', data_set)
 data_set_id = data_set_response.data['resource-id']
@@ -161,7 +174,7 @@ gnss_module = {"name": "GNSS Jupyter Notebook",
                "type": "COMPONENT",
                "path": "gssc-jupyter",
                "parent-path": "",
-               "data-accept-content-types": ["application/x-hdr", "application/x-clk", "application/x-dbl"],
+               "data-accept-content-types": ["application/x-hdr", "application/x-clk", "text/plain"],
                "content": gnss_comp}
 
 gnss_module_response = nuvla_api.add('module', gnss_module)
@@ -173,11 +186,11 @@ print("module id: %s\n" % gnss_module_id)
 # create deployment
 #
 
-deployment = {"module": {"href": gnss_module_id},
-              "infrastructure-service-id": swarm_id,
-              "credential-id": swarm_cred_id}
+#deployment = {"module": {"href": gnss_module_id},
+#              "infrastructure-service-id": swarm_id,
+#              "credential-id": swarm_cred_id}
 
-deployment_response = nuvla_api.add('deployment', deployment)
-deployment_id = deployment_response.data['resource-id']
-print("deployment id: %s\n" % deployment_id)
+#deployment_response = nuvla_api.add('deployment', deployment)
+#deployment_id = deployment_response.data['resource-id']
+#print("deployment id: %s\n" % deployment_id)
 
