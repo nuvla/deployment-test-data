@@ -171,6 +171,7 @@ gnss_comp = {"author": "esa",
 
 gnss_module = {"name": "GNSS Jupyter Notebook",
                "description": "Jupyter notebook application integrated with Nuvla data management",
+               "logo-url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/ESA_logo.svg/320px-ESA_logo.svg.png",
                "type": "COMPONENT",
                "path": "gssc-jupyter",
                "parent-path": "",
