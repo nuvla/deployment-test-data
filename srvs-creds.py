@@ -10,7 +10,7 @@ from nuvla.api import Api as nuvla_Api
 
 nuvla_api = nuvla_Api(os.environ['NUVLA_ENDPOINT'], insecure=True)
 
-nuvla_api.login_internal('super', 'supeRsupeR')
+nuvla_api.login_internal('super', 'supeR-8%')
 
 #
 # Create infrastructure-service-group to hold the services running at
