@@ -18,7 +18,7 @@ from nuvla.api import Api as nuvla_Api
 
 nuvla_api = nuvla_Api(environ['NUVLA_ENDPOINT'], insecure=True)
 
-nuvla_api.login_internal('super', 'supeR-8%')
+nuvla_api.login_internal('super', 'supeR8-supeR8')
 
 bucket = 'new-bucket-for-tests'
 object = 'new-object-for-tests'

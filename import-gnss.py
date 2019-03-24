@@ -9,7 +9,7 @@ from nuvla.api import Api as nuvla_Api
 
 nuvla_api = nuvla_Api('https://localhost', insecure=True)
 
-nuvla_api.login_internal('super', 'supeR-8%')
+nuvla_api.login_internal('super', 'supeR8-supeR8')
 
 #
 # set the swarm infrastructure-service
