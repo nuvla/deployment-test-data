@@ -1,4 +1,3 @@
-
 import os
 
 #
@@ -163,9 +162,12 @@ print("prefix resource id: %s\n" % prefix_resource_id)
 gnss_comp = {"author": "esa",
              "commit": "initial commit",
              "architecture": "x86",
-             "image": "sixsq/gssc-jupyter:latest",
+             "image": {"repository": "sixsq",
+                       "image-name": "gssc-jupyter",
+                       "tag": "latest"},
              "output-parameters": [{"name": "jupyter-token", "description": "jupyter authentication token"}],
-             "ports": ["tcp::8888"],
+             "ports": [{"protocol": "tcp",
+                        "target-port": 8888}],
              "urls": [["jupyter", "http://${hostname}:${tcp.8888}/?token=${jupyter-token}"]],
              }
 

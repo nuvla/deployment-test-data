@@ -2,7 +2,6 @@
 
 from datetime import datetime
 import hashlib
-import json
 import random
 import requests
 import string
@@ -12,7 +11,6 @@ import string
 
 
 from os import listdir, environ
-from os.path import isfile, join
 
 from nuvla.api import Api as nuvla_Api
 
@@ -167,23 +165,9 @@ data = {
     "gnss:mission": "random",
     
     "acl": {
-        "owner": {
-            "type": "ROLE",
-            "principal": "ADMIN"
-        },
-        "rules": [
-            {
-                "right": "VIEW",
-                "type": "ROLE",
-                "principal": "USER"
-            },
-            {
-                "type": "ROLE",
-                "principal": "ADMIN",
-                "right": "ALL"
-            }
-        ]
-    }    
+        "owners": ["group/nuvla-admin"],
+        "view-acl": ["group/nuvla-user"]
+    }
 }
 
 response = nuvla_api.add('data-record', data)
