@@ -10,13 +10,13 @@ import string
 #logging.basicConfig(level=logging.DEBUG)
 
 
-from os import listdir, environ
+from os import listdir, environ, remove
 
 from nuvla.api import Api as nuvla_Api
 
 nuvla_api = nuvla_Api(environ['NUVLA_ENDPOINT'], insecure=True)
 
-nuvla_api.login_internal('super', 'supeR8-supeR8')
+nuvla_api.login_password('super', 'supeR8-supeR8')
 
 bucket = 'new-bucket-for-tests'
 object = 'new-object-for-tests'
@@ -58,17 +58,30 @@ print('SWARM ENDPOINT: %s' % swarm_endpoint)
 
 #
 # function to create a file with random contents
+# (text is lowercase characters, "binary" is uppercase characters)
 #
 
-def random_file(size):
+def random_text_file(size):
     chars = ''.join([random.choice(string.lowercase) for i in range(size)])
     filename = "%s.txt" % hashlib.sha1(chars).hexdigest()
     with open(filename, 'w') as f:
         f.write(chars)
     return filename
 
-file_size = 1024
-filename = random_file(file_size)
+def random_binary_file(size):
+    chars = ''.join([random.choice(string.uppercase) for i in range(size)])
+    filename = "%s.txt" % hashlib.sha1(chars).hexdigest()
+    with open(filename, 'w') as f:
+        f.write(chars)
+    return filename
+
+#
+# Create a timestamp to associate with the data
+#
+
+timestamp = '%s.0Z' % datetime.utcnow().replace(microsecond=0).isoformat()
+
+location = [6.143158, 46.204391, 373.0]
 
 #
 # create a data-object
@@ -77,13 +90,15 @@ filename = random_file(file_size)
 data = {"name": "data-object-1",
         "description": "data object 1 with random data",
         "template": {
-            "credential": s3_credential_id,
+            "href": "data-object-template/generic",
             "type": "generic",
             "resource-type": "data-object-template",
+            "credential": s3_credential_id,
+            "timestamp": timestamp,
+            "location": location,
             "content-type": "text/plain",
-            "object": object,
             "bucket": bucket,
-            "href": "data-object-template/generic"
+            "object": object
         }
 }
 
@@ -101,10 +116,15 @@ response = nuvla_api.operation(data_object, "upload")
 upload_url = response.data['uri']
 print("upload_url: %s\n" % upload_url)
 
+file_size = random.randint(1, 8096)
+filename = random_text_file(file_size)
+
 body = open(filename, 'rb').read()
 headers = {"content-type": "text/plain"}
 response = requests.put(upload_url, data=body, headers=headers)
 print(response)
+
+remove(filename)
 
 #
 # mark the object as ready
@@ -134,8 +154,6 @@ print(response.text)
 # create data-record
 #
 
-current_date = '%sZ' % datetime.utcnow().replace(microsecond=0).isoformat()
-
 # FIXME: This should point to S3 service rather than SWARM.
 
 data = {
@@ -144,24 +162,22 @@ data = {
     "name": "data-object-1",
     "description": "data-object-1 description",
     
-    "resource:type": "DATA",
-    "resource:protocol": "NFS",
-    "resource:object": data_object_id,
-    
-    "data:bucket": bucket,
-    "data:object": object,
-    "data:contentType": "text/plain",
-    "data:timestamp": current_date,
+    "bucket": bucket,
+    "object": object,
+    "content-type": "text/plain",
+    "timestamp": timestamp,
+    "location": location,
 
-    "data:bytes": file_size,
+    "bytes": file_size,
     
-    "data:nfsDevice": "/nfs-root",
-    "data:nfsIP": environ['INFRA_IP'],
-    
-    "data:protocols": [
-        "tcp+nfs"
-    ],
-
+    "nfsDevice": "/nfs-root",
+    "nfsIP": environ['INFRA_IP'],
+    "mount": {"type": "volume",
+              "target": 'mnt/%s' % bucket,
+              "options": {"type": "nfs",
+                          "o": 'addr=%s' % environ['INFRA_IP'],
+                          "device": ':/nfs-root/%s' % bucket}},
+              
     "gnss:mission": "random",
     
     "acl": {
@@ -173,13 +189,4 @@ data = {
 response = nuvla_api.add('data-record', data)
 data_record_id = response.data['resource-id']
 print("data-record id: %s\n" % data_record_id)
-
-
-#
-# delete the data-object
-#
-
-#print("DELETE")
-#response = nuvla_api.delete(data_object_id)
-#print(response)
 
