@@ -79,7 +79,7 @@ def random_binary_file(size):
 # Create a timestamp to associate with the data
 #
 
-timestamp = '%s.0Z' % datetime.utcnow().replace(microsecond=0).isoformat()
+timestamp = '%s.00Z' % datetime.utcnow().replace(microsecond=0).isoformat()
 
 location = [6.143158, 46.204391, 373.0]
 
@@ -172,11 +172,11 @@ data = {
     
     "nfsDevice": "/nfs-root",
     "nfsIP": environ['INFRA_IP'],
-    "mount": {"type": "volume",
+    "mount": {"mount-type": "volume",
               "target": 'mnt/%s' % bucket,
-              "options": {"type": "nfs",
-                          "o": 'addr=%s' % environ['INFRA_IP'],
-                          "device": ':/nfs-root/%s' % bucket}},
+              "volume-options": {"type": "nfs",
+                                 "o": 'addr=%s' % environ['INFRA_IP'],
+                                 "device": ':/nfs-root/%s' % bucket}},
               
     "gnss:mission": "random",
     
