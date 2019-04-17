@@ -79,6 +79,7 @@ def random_binary_file(size):
 # Create a timestamp to associate with the data
 #
 
+
 timestamp = '%s.00Z' % datetime.utcnow().replace(microsecond=0).isoformat()
 
 location = [6.143158, 46.204391, 373.0]
@@ -161,17 +162,13 @@ data = {
     
     "name": "data-object-1",
     "description": "data-object-1 description",
-    
-    "bucket": bucket,
-    "object": object,
+
     "content-type": "text/plain",
     "timestamp": timestamp,
     "location": location,
 
     "bytes": file_size,
-    
-    "nfsDevice": "/nfs-root",
-    "nfsIP": environ['INFRA_IP'],
+
     "mount": {"mount-type": "volume",
               "target": 'mnt/%s' % bucket,
               "volume-options": {"type": "nfs",
