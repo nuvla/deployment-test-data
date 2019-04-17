@@ -160,7 +160,7 @@ print(response.text)
 data = {
     "infrastructure-service": swarm_id,
     
-    "name": "data-object-1",
+    "name": object,
     "description": "data-object-1 description",
 
     "content-type": "text/plain",
@@ -170,7 +170,7 @@ data = {
     "bytes": file_size,
 
     "mount": {"mount-type": "volume",
-              "target": 'mnt/%s' % bucket,
+              "target": '/mnt/%s' % bucket,
               "volume-options": {"type": "nfs",
                                  "o": 'addr=%s' % environ['INFRA_IP'],
                                  "device": ':/nfs-root/%s' % bucket}},
