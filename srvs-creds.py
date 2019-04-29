@@ -136,6 +136,26 @@ print("prefix gnss id: %s\n" % prefix_gnss_id)
 
 
 #
+# Add project for GNSS Python application
+#
+
+gnss_comp = {"author": "esa",
+             "commit": "initial commit"}
+
+gnss_module = {"name": "GSSC project",
+               "description": "GNSS project holding applications demonstrating GSSC contribution to the community",
+               "logo-url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/ESA_logo.svg/320px-ESA_logo.svg.png",
+               "type": "PROJECT",
+               "path": "gssc",
+               "parent-path": "",
+               "content": gnss_comp}
+
+gnss_module_response = nuvla_api.add('module', gnss_module)
+gnss_module_id = gnss_module_response.data['resource-id']
+print("module id: %s\n" % gnss_module_id)
+
+
+#
 # Add component for GNSS Python application
 #
 
@@ -155,8 +175,8 @@ gnss_module = {"name": "GNSS Jupyter Notebook",
                "description": "Jupyter notebook application integrated with Nuvla data management",
                "logo-url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/ESA_logo.svg/320px-ESA_logo.svg.png",
                "type": "COMPONENT",
-               "path": "gssc-jupyter",
-               "parent-path": "",
+               "path": "gssc/gssc-jupyter",
+               "parent-path": "gssc",
                "data-accept-content-types": ["text/plain", "application/octet-stream"],
                "content": gnss_comp}
 
