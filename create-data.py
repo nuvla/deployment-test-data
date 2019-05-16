@@ -37,7 +37,7 @@ print('S3 ENDPOINT: %s' % s3_endpoint)
 # get the credential for s3
 #
 
-response = nuvla_api.search('credential', filter="infrastructure-services='%s'" % s3_id)
+response = nuvla_api.search('credential', filter="parent='%s'" % s3_id)
 s3_credential = response.data['resources'][0]
 s3_credential_id = s3_credential['id']
 

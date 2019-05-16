@@ -75,7 +75,7 @@ print("Minio service id: %s\n" % minio_id)
 swarm_cred_tpl = {"name": "Docker Swarm Credential",
                   "description": "Certificate, Key, and CA for test Docker Swarm cluster",
                   "template": {"href": "credential-template/infrastructure-service-swarm",
-                               "infrastructure-services": [swarm_id],
+                               "parent": swarm_id,
                                "ca": "my-ca",
                                "cert": os.environ['SWARM_CERT'],
                                "key": os.environ['SWARM_KEY']}}
@@ -91,7 +91,7 @@ print("Swarm credential id: %s\n" % swarm_cred_id)
 minio_cred_tpl = {"name": "Minio S3 Credential",
                   "description": "Credentials for Minio S3 test service",
                   "template": {"href": "credential-template/infrastructure-service-minio",
-                               "infrastructure-services": [minio_id],
+                               "parent": minio_id,
                                "access-key": os.environ['MINIO_ACCESS_KEY'],
                                "secret-key": os.environ['MINIO_SECRET_KEY']}}
 
