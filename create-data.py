@@ -25,7 +25,7 @@ object = 'new-object-for-tests'
 # get the s3 infrastructure-service
 #
 
-response = nuvla_api.search('infrastructure-service', filter="type='s3'")
+response = nuvla_api.search('infrastructure-service', filter="subtype='s3'")
 s3_service = response.data['resources'][0]
 s3_id = s3_service['id']
 s3_endpoint = s3_service['endpoint']
@@ -48,7 +48,7 @@ print(s3_credential)
 # get the swarm infrastructure-service
 #
 
-response = nuvla_api.search('infrastructure-service', filter="type='swarm'")
+response = nuvla_api.search('infrastructure-service', filter="subtype='swarm'")
 swarm_service = response.data['resources'][0]
 swarm_id = swarm_service['id']
 swarm_endpoint = swarm_service['endpoint']
@@ -92,7 +92,7 @@ data = {"name": "data-object-1",
         "description": "data object 1 with random data",
         "template": {
             "href": "data-object-template/generic",
-            "type": "generic",
+            "subtype": "generic",
             "resource-type": "data-object-template",
             "credential": s3_credential_id,
             "timestamp": timestamp,
